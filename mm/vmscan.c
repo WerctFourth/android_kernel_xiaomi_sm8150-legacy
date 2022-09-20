@@ -4168,8 +4168,8 @@ static int scan_pages(struct lruvec *lruvec, struct scan_control *sc,
 		__count_vm_events(item, isolated);
 		__count_vm_events(PGREFILL, sorted);
 	}
-	__count_memcg_events(memcg, item, isolated);
-	__count_memcg_events(memcg, PGREFILL, sorted);
+	count_memcg_events(memcg, item, isolated);
+	count_memcg_events(memcg, PGREFILL, sorted);
 
 	/*
 	 * There might not be eligible pages due to reclaim_idx, may_unmap and
@@ -4326,7 +4326,7 @@ static int evict_pages(struct lruvec *lruvec, struct scan_control *sc, int swapp
 	item = current_is_kswapd() ? PGSTEAL_KSWAPD : PGSTEAL_DIRECT;
 	if (global_reclaim(sc))
 		__count_vm_events(item, reclaimed);
-	__count_memcg_events(memcg, item, reclaimed);
+	count_memcg_events(memcg, item, reclaimed);
 
 	spin_unlock_irq(&pgdat->lru_lock);
 
